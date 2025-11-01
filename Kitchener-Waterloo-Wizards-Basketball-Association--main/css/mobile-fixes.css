@@ -1,0 +1,441 @@
+/* ================================================================
+   MOBILE DEBUGGING & FIX STYLESHEET
+   ================================================================
+   This file fixes critical CSS syntax errors and mobile interaction
+   issues in the main index.html file.
+   
+   INSTRUCTIONS: Add this line to the <head> of index.html AFTER
+   all other stylesheets:
+   <link rel="stylesheet" href="mobile-fixes.css">
+   ================================================================ */
+
+/* Fix broken min-height syntax errors */
+html {
+  min-height: 100vh !important;
+  min-height: -webkit-fill-available !important;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh !important;
+  min-height: -webkit-fill-available !important;
+  overflow-x: hidden;
+}
+
+/* ================================================================
+   DESKTOP FIXES - Hide mobile elements
+   ================================================================ */
+@media (min-width: 769px) {
+  /* CRITICAL: Hide mobile navigation elements on desktop */
+  .mobile-nav-top,
+  nav .mobile-nav-top,
+  nav > .mobile-nav-top {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  
+  .mobile-nav-top .logo-link,
+  .mobile-nav-top .nav-logo,
+  .mobile-nav-top * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+  /* Hide mobile social icons on desktop */
+  .mobile-social-icons {
+    display: none !important;
+  }
+  
+  /* Hide hamburger menu on desktop */
+  .menu-toggle,
+  #menu-toggle {
+    display: none !important;
+  }
+  
+  /* Show only the desktop logo */
+  nav > .logo-link {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  nav > .logo-link .nav-logo {
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  /* Ensure desktop body padding */
+  body {
+    padding-top: 80px !important;
+  }
+  
+  /* Ensure desktop nav is horizontal */
+  nav {
+    flex-direction: row !important;
+    padding: 1rem 2rem !important;
+  }
+  
+  .nav-links {
+    position: static !important;
+    display: flex !important;
+    flex-direction: row !important;
+    opacity: 1 !important;
+    height: auto !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* ================================================================
+   MOBILE-SPECIFIC FIXES
+   ================================================================ */
+@media (max-width: 768px) {
+  
+  /* Fix viewport and scrolling */
+  html {
+    height: auto;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overscroll-behavior-y: contain;
+  }
+  
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding-top: 80px !important; /* Reduced from 120px */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  /* ============================================================
+     CRITICAL FIX: Touch-action rules for mobile interaction
+     ============================================================ */
+  
+  /* IMPORTANT: Remove conflicting universal touch-action rule */
+  * {
+    touch-action: auto !important;
+  }
+  
+  /* Text content - allow selection and scrolling */
+  p, span, h1, h2, h3, h4, h5, h6, 
+  .header-text, .tagline, li,
+  .highlight-benefit, .highlight-key, .highlight-stat {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: pan-y !important;
+  }
+  
+  /* Interactive elements - MUST be tappable */
+  a, button, .btn, 
+  .menu-toggle, #menu-toggle,
+  .nav-links a, 
+  .mobile-social-icons a,
+  .social-inline a,
+  .rep-team-box,
+  .calendar-box,
+  [role="button"],
+  [onclick] {
+    touch-action: manipulation !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    -webkit-tap-highlight-color: rgba(137, 207, 240, 0.3) !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Links must navigate properly */
+  a {
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+  
+  /* Ensure buttons work */
+  button, .btn {
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+  
+  /* Scrollable containers */
+  .nav-links, main, section,
+  html, body {
+    touch-action: pan-y pan-x !important;
+  }
+  
+  /* Form elements */
+  input, select, textarea {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    font-size: 16px !important; /* Prevent iOS zoom */
+    -webkit-tap-highlight-color: rgba(137, 207, 240, 0.2);
+    touch-action: manipulation !important;
+  }
+  
+  /* ============================================================
+     Navigation fixes
+     ============================================================ */
+  nav {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    min-height: auto;
+  }
+  
+  /* CRITICAL: Hide desktop logo on mobile to prevent duplication */
+  nav > .logo-link {
+    display: none !important;
+  }
+  
+  nav > .logo-link .nav-logo {
+    display: none !important;
+  }
+  
+  .mobile-nav-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0.5rem 0;
+    gap: 1rem;
+  }
+  
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    color: #89CFF0;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    min-height: 44px;
+    min-width: 44px;
+    transition: all 0.3s ease;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(137, 207, 240, 0.2);
+  }
+  
+  .mobile-social-icons {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 0.5rem;
+  }
+  
+  .mobile-social-icons a {
+    color: #89CFF0;
+    font-size: 1.4rem;
+    margin: 0 0.3rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(137, 207, 240, 0.2);
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: 80px; /* Match body padding-top */
+    left: 0;
+    right: 0;
+    z-index: 999;
+    height: calc(100vh - 80px); /* Match body padding-top */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y !important;
+  }
+  
+  .nav-links a {
+    margin: 0.5rem 0;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(137, 207, 240, 0.2);
+  }
+  
+  /* ============================================================
+     Rep team box fixes
+     ============================================================ */
+  .rep-team-box {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    max-width: 90% !important;
+    margin: 1rem auto !important;
+    padding: 1.5rem !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    min-height: 44px !important;
+  }
+  
+  /* ============================================================
+     Scrollbar styling
+     ============================================================ */
+  body::-webkit-scrollbar {
+    width: 8px;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background: rgba(137, 207, 240, 0.6);
+    border-radius: 4px;
+  }
+  
+  body::-webkit-scrollbar-thumb:hover {
+    background: rgba(137, 207, 240, 0.8);
+  }
+  
+  body {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(137, 207, 240, 0.6) rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ================================================================
+   EXTRA SMALL MOBILE FIXES (< 480px)
+   ================================================================ */
+@media (max-width: 480px) {
+  body {
+    padding-top: 70px !important; /* Reduced for smaller screens */
+  }
+  
+  nav {
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .nav-links {
+    top: 70px !important;
+    height: calc(100vh - 70px) !important;
+  }
+  
+  .mobile-nav-top .nav-logo {
+    height: 50px !important;
+    width: auto !important;
+  }
+}
+
+/* ================================================================
+   iOS Safari specific fixes
+   ================================================================ */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari specific fixes */
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  
+  .nav-links {
+    height: calc(100vh - 80px);
+    height: calc(-webkit-fill-available - 80px);
+  }
+  
+  /* Prevent iOS Safari zoom on input focus */
+  input, select, textarea {
+    font-size: 16px !important;
+    transform: translateZ(0);
+  }
+  
+  /* iOS Safari safe area support */
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  nav {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* ================================================================
+   BREAKPOINT GAP PROTECTION (768px-769px)
+   ================================================================ */
+/* Ensure clean transition between mobile and desktop */
+@media (min-width: 768px) and (max-width: 769px) {
+  /* Default to desktop layout at this breakpoint */
+  .mobile-nav-top {
+    display: none !important;
+  }
+  
+  nav > .logo-link {
+    display: block !important;
+  }
+  
+  body {
+    padding-top: 80px !important;
+  }
+}
+
+/* ================================================================
+   Accessibility - Reduced motion
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .star {
+    animation: none !important;
+    opacity: 0.2 !important;
+  }
+}
+
+/* ================================================================
+   FINAL SAFETY NET - Prevent any layout breaks
+   ================================================================ */
+/* Ensure mobile elements never show on desktop regardless of other CSS */
+@media (min-width: 769px) {
+  .mobile-nav-top,
+  .mobile-social-icons,
+  .menu-toggle {
+    max-height: 0 !important;
+    max-width: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+}
+
+/* Ensure desktop elements never show on mobile */
+@media (max-width: 768px) {
+  nav > .logo-link:not(.mobile-nav-top .logo-link) {
+    max-height: 0 !important;
+    max-width: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+}
